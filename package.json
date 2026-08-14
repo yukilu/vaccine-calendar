@@ -1,0 +1,15 @@
+{
+  "name": "vaccine-calendar",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently -n server,client -c blue,green \"npm:dev:server\" \"npm:dev:client\"",
+    "dev:server": "npm --prefix server run dev",
+    "dev:client": "npm --prefix client run dev",
+    "build": "npm --prefix client run build && npm --prefix server run build && powershell -Command \"if (Test-Path 'server/dist') { Copy-Item -Recurse -Force 'client/dist' 'server/dist/dist' }\"",
+    "start": "npm --prefix server run start"
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.4"
+  }
+}

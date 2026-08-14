@@ -18,7 +18,6 @@ export default function SchedulePage({ vaccines, loading, onEdit }: Props) {
 
   return (
     <div className="schedule-page">
-      <div className="page-title">疫苗日程</div>
       {loading ? (
         <div className="empty">加载中...</div>
       ) : sorted.length === 0 ? (
@@ -26,12 +25,14 @@ export default function SchedulePage({ vaccines, loading, onEdit }: Props) {
       ) : (
         <div className="schedule-list">
           {sorted.map((v) => {
-            const isExpired =
-              new Date(v.scheduled_time.slice(0, 10) + 'T00:00:00') < startToday;
+            const date = new Date(v.scheduled_time.slice(0, 10) + 'T00:00:00');
+            const isExpired = date < startToday;
+            const isToday = date.getTime() === startToday.getTime();
+            const fmt = `${date.getFullYear()}/${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(2, '0')}`;
             return (
               <div
                 key={v.id}
-                className={`vaccine-card schedule-card${isExpired ? ' expired' : ''}`}
+                className={`vaccine-card schedule-card${isExpired ? ' expired' : ''}${isToday ? ' today' : ''}`}
                 onClick={() => onEdit(v)}
               >
                 <div className="vc-left">
@@ -41,9 +42,7 @@ export default function SchedulePage({ vaccines, loading, onEdit }: Props) {
                   </div>
                 </div>
                 <div className="vc-right">
-                  <div className="vc-date">
-                    {new Date(v.scheduled_time.slice(0, 10) + 'T00:00:00').toLocaleDateString('zh-CN')}
-                  </div>
+                  <div className="vc-date">{fmt}</div>
                 </div>
               </div>
             );

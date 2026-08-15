@@ -199,6 +199,13 @@ input {
   color: #2b6cff;
   text-align: center;
 }
+.cal-chip.expired {
+  background: #f2f3f5;
+  color: #b0b3b8;
+}
+.cal-chip.expired .cal-chip-dose {
+  color: #b0b3b8;
+}
 
 /* ============ Stats ============ */
 .stats {

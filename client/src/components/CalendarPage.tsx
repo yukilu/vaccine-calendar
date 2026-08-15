@@ -92,13 +92,18 @@ export default function CalendarPage({ vaccines }: Props) {
             const key = `${year}-${pad(month + 1)}-${pad(d)}`;
             const items = byDate.get(key) || [];
             const isToday = key === todayKey;
+            const isPast = key < todayKey;
             return (
               <div key={i} className={`cal-cell ${isToday ? 'today' : ''}`}>
                 <span className="cal-day">{d}</span>
                 {items.length > 0 && (
                   <div className="cal-chips">
                     {items.slice(0, 2).map((v) => (
-                      <div key={v.id} className="cal-chip" title={`${v.name} 第${v.dose}针`}>
+                      <div
+                        key={v.id}
+                        className={`cal-chip ${isPast ? 'expired' : ''}`}
+                        title={`${v.name} 第${v.dose}针`}
+                      >
                         {v.name}
                         <span className="cal-chip-dose">{v.dose}</span>
                       </div>
